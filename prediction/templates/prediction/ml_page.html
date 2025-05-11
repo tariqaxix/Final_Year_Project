@@ -1,0 +1,289 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Machine Learning in Disaster Prediction</title>
+
+  <!-- Fonts, Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'prediction/css/style.css' %}" />
+  
+  <style>
+    /* General Styles for ML Page */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #c2e9fb, #a1c4fd); /* A soft gradient for background */
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #0061f2;
+      padding: 1rem;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.75rem;
+    }
+
+    .navbar-nav .nav-link {
+      color: white !important;
+      font-weight: 500;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #ffd700 !important;
+    }
+
+    /* Hero Section */
+    .hero {
+      background-image: url("../img/hero-bg.jpg"); /* Add an engaging hero image */
+      background-size: cover;
+      background-position: center;
+      padding: 8rem 2rem;
+      color: white;
+      text-align: center;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero p {
+      font-size: 1.75rem;
+      margin-top: 1.5rem;
+    }
+
+    /* ML Page Sections */
+    .ml_section {
+      margin-bottom: 4rem;
+      padding: 2rem;
+      border-radius: 10px;
+      background-color: #ffffff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .ml_section:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .ml_section h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      text-align: center;
+      color: #343a40;
+      margin-bottom: 1.5rem;
+    }
+
+    .ml_section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      text-align: justify;
+      color: #555;
+    }
+
+    .ml_section ul {
+      font-size: 1.1rem;
+      padding-left: 20px;
+      color: #555;
+    }
+
+    .ml_section ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    /* Model Performance Section */
+    .ml_section img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+    }
+
+    /* Buttons */
+    .ml-btn {
+      padding: 14px 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      display: block;
+      margin: 2rem auto;
+    }
+
+    .ml-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Footer */
+    .ml-page-footer {
+      background-color: #343a40;
+      color: white;
+      padding: 3rem 0;
+      text-align: center;
+      font-size: 1rem;
+      margin-top: 4rem;
+      border-radius: 1rem;
+    }
+
+    .ml-page-footer p {
+      margin: 0;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    /* Model Performance Cards */
+    .model-performance-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .model-performance-cards .card {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .model-performance-cards .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .model-performance-cards h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .model-performance-cards p {
+      font-size: 1.1rem;
+      color: #0061f2;
+    }
+
+    .confusion-matrix {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .confusion-matrix img {
+      max-width: 80%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="/">Disaster Prediction</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <!-- <li class="nav-item"><a class="nav-link" href="/ml">ML</a></li> -->
+          <li class="nav-item"><a class="nav-link" href="/dashboard/">Dashboard</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container mt-5 mb-5">
+    <h1 class="text-center">Machine Learning in Disaster Prediction</h1>
+
+    <div class="ml_section">
+      <h2>Introduction</h2>
+      <p>Machine learning plays a vital role in predicting disaster risks by analyzing weather patterns and environmental data. In this project, we use machine learning models to predict the likelihood and severity of disasters such as droughts, avalanches, and landslides.</p>
+    </div>
+
+    <div class="ml_section">
+      <h2>Overview of Machine Learning Models 🤖</h2>
+      <p>The models used in this system include <strong>XGBoost</strong>, <strong>Random Forest</strong>, <strong>CatBoost</strong>, <strong>LGB</strong>, and <strong>Logistic Regression</strong>, which are trained using various environmental and weather-related features such as temperature 🌡️, wind speed 🌬️, precipitation 🌧️, and humidity 💧.</p>
+      <div class="model-performance-cards">
+        <div class="card">
+          <h4>Avalanche Prediction ❄️</h4>
+          <p>Used <strong>Random Forest</strong> with an accuracy of <strong>88%</strong>.</p>
+        </div>
+        <div class="card">
+          <h4>Drought Prediction 🌵</h4>
+          <p>Used a <strong>Stacking Ensemble</strong> (CatBoost, XGBoost, LGB, and Random Forest) with an accuracy of <strong>79%</strong>.</p>
+        </div>
+        <div class="card">
+          <h4>Landslide Prediction 🌄</h4>
+          <p>Used <strong>Logistic Regression</strong>, with an accuracy of <strong>93%</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ml_section">
+      <h2>Model Performance 📊</h2>
+      <p>The models were evaluated using accuracy and cross-validation to ensure reliable predictions. The performance metrics such as precision, recall, and F1 score were computed to assess the model's ability to predict disaster risks accurately.</p>
+      <div class="confusion-matrix">
+        <img src="{% static 'prediction/images/confusion_matrix.png' %}" alt="Confusion Matrix" class="img-fluid">
+      </div>
+    </div>
+
+    <div class="ml_section">
+      <h2>Real-Time Predictions 🔄</h2>
+      <p>Once the model is trained, it is used to make real-time predictions. New weather data is fetched from the OpenWeatherMap API and fed into the model to generate predictions for disaster risks in specific regions.</p>
+    </div>
+
+    <div class="ml_section">
+      <h2>Challenges & Limitations ⚠️</h2>
+      <p>Despite the promising results, there are some challenges:</p>
+      <ul>
+        <li>Data sparsity in certain regions affects prediction accuracy.</li>
+        <li>Some weather features may not be available in real-time, leading to gaps in the predictions.</li>
+        <li>The model might not be able to account for all possible variables influencing disasters.</li>
+      </ul>
+    </div>
+
+    <div class="ml_section">
+      <h2>Future Improvements 🚀</h2>
+      <ul>
+        <li>Incorporating additional data sources like satellite imagery and real-time weather feeds.</li>
+        <li>Using deep learning models like CNNs for more complex patterns.</li>
+        <li>Improving prediction accuracy with reinforcement learning techniques.</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

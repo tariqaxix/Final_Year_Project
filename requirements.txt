@@ -1,0 +1,7 @@
+django
+joblib==1.3.2
+pandas==1.3.5
+scikit-learn==1.6.1
+numpy==1.21.6
+xgboost==1.7.6
+gunicorn
